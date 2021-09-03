@@ -84,11 +84,12 @@ start.addEventListener('click',function(){
 });
 
 //stopボタンにクリック時のイベントを追加(タイマーストップイベント)
-stop.addEventListener('click',function(){
+//stop.addEventListener('click',function(){
+    stop.addEventListener('click',function(){
 
     //タイマーを止めるにはclearTimeoutを使う必要があり、そのためにはclearTimeoutの引数に渡すためのタイマーのidが必要
     //変数TimerIdは61行目でsetTimeoutに代入しているので、そこに対応する
-    clearTimeout(timerId);
+    clearInterval(timerId);
 
 
     //タイマーに表示される時間elapsedTimeが現在時刻からスタートボタンを押した時刻を引いたものなので、
@@ -100,6 +101,7 @@ stop.addEventListener('click',function(){
 
 //resetボタンにクリック時のイベントを追加(タイマーリセットイベント)
 reset.addEventListener('click',function(){
+    clearInterval(timerId);
 
     //経過時刻を更新するための変数elapsedTimeを0にしてあげつつ、updateTimetTextで0になったタイムを表示。
     //経過時間を0にすることで、タイマーの表示が0でリセットできる
@@ -114,5 +116,38 @@ reset.addEventListener('click',function(){
     //関数updateTimetTextでタイマーの表示を設定している
     updateTimetText();
 
+
 });
+
+
+//ここから　ボタンの不活化
+
+//$('button').prop('disabled', false);
+//trueで付与、falseで解除
+
+//最初はスタートボタンのみ活性にしておく
+$('#stop').prop('disabled', true);
+$('#reset').prop('disabled', true);
+
+//スタートボタンを押すとスタートが不活性化、ストップとリセットは活性
+$('#start').click(function() {
+    $('#start').prop('disabled', true);
+    $('#stop').prop('disabled',  false);
+    $('#reset').prop('disabled', false);
+})
+
+//ストップ押すとスタートが解除
+$('#stop').click(function() {
+    $('#start').prop('disabled', false);
+    $('#reset').prop('disabled', false);
+})
+
+//リセットを押すと最初の状態に戻る
+$('#reset').click(function() {
+    $('#start').prop('disabled', false);
+    $('#stop').prop('disabled', true);
+    $('#reset').prop('disabled', false);
+})
+
+
 })();
